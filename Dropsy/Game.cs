@@ -4,6 +4,7 @@
     {
         public Game(int size)
         {
+            Screen = new ConsoleScreen();
         }
 
         public IScreen Screen { get; set; }
