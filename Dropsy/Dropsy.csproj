@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="Game.cs" />
     <Compile Include="GameTest.cs" />
+    <Compile Include="IScreen.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
