@@ -13,7 +13,7 @@ namespace Dropsy
         }
 
         [Test]
-        public void PlayShouldPlayTheGame()
+        public void PlayDrawsAOneByOne()
         {
             var testObj = new Game(1);
             var screen = new FakeScreen();
@@ -23,6 +23,21 @@ namespace Dropsy
                 "┌───┐\n" +
                 "│   │\n" +
                 "└───┘\n"));
+        }
+
+        [Test]
+        public void PlayDrawsATwoByTwo()
+        {
+            var testObj = new Game(2);
+            var screen = new FakeScreen();
+            testObj.Screen = screen;
+            testObj.Play();
+            Assert.That(screen.Output, Is.EqualTo(
+                "┌──────┐\n" +
+                "│      │\n" +
+                "│      │\n" +
+                "└──────┘\n"
+                ));
         }
     }
 
