@@ -1,5 +1,4 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace Dropsy
 {
@@ -20,21 +19,20 @@ namespace Dropsy
             var screen = new FakeScreen();
             testObj.Screen = screen;
             testObj.Play();
-            Assert.That(screen.output, Is.EqualTo(
-                "┌───┐\n"+
-                "│   │\n"+
+            Assert.That(screen.Output, Is.EqualTo(
+                "┌───┐\n" +
+                "│   │\n" +
                 "└───┘\n"));
         }
-
-
     }
 
     public class FakeScreen : IScreen
     {
-        public string output = "";
+        public string Output = "";
+
         public void WriteLine(string line)
         {
-            output += line + "\n";
+            Output += line + "\n";
         }
     }
 }
