@@ -22,7 +22,8 @@ namespace Dropsy
             Assert.That(screen.Output, Is.EqualTo(
                 "┌───┐\n" +
                 "│   │\n" +
-                "└───┘\n"));
+                "└───┘\n" +
+                "  1  \n"));
         }
 
         [Test]
@@ -36,7 +37,8 @@ namespace Dropsy
                 "┌──────┐\n" +
                 "│      │\n" +
                 "│      │\n" +
-                "└──────┘\n"
+                "└──────┘\n" +
+                "  1  2  \n"
                 ));
         }
     }
