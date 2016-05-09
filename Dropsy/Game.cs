@@ -20,6 +20,11 @@ namespace Dropsy
 
         public void Play()
         {
+            DrawBoard();
+        }
+
+        public void DrawBoard()
+        {
             ChipToDrop();
             TopBoarder();
             Field();

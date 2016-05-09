@@ -32,7 +32,7 @@ namespace Dropsy
         }
 
         [Test]
-        public void PlayDrawsATwoByTwo()
+        public void DrawBoardDrawsATwoByTwo()
         {
             CreateTestObj(2);
             _testObj.Play();
@@ -58,7 +58,7 @@ namespace Dropsy
 
 
         [Test]
-        public void PlayDrawsANineByNineAndPutsChipInMiddleColumn()
+        public void DrawBoardDrawsANineByNineAndPutsChipInMiddleColumn()
         {
             CreateTestObj(9);
             _testObj.Play();
