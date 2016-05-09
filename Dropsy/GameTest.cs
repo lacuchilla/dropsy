@@ -5,6 +5,10 @@ namespace Dropsy
     [TestFixture]
     public class GameTest
     {
+        private Game _testObj;
+        private FakeScreen _screen;
+        private FakeChipGenerator _fakeChipToDrop;
+
         [Test]
         public void Construction()
         {
@@ -15,11 +19,12 @@ namespace Dropsy
         [Test]
         public void PlayDrawsAOneByOne()
         {
-            var testObj = new Game(1);
-            var screen = new FakeScreen();
-            testObj.Screen = screen;
-            testObj.Play();
-            Assert.That(screen.Output, Is.EqualTo(
+            _testObj = new Game(1);
+            _screen = new FakeScreen();
+            _testObj.Screen = _screen;
+            _testObj.Play();
+            Assert.That(_screen.Output, Is.EqualTo(
+                "  1\n" +
                 "┌───┐\n" +
                 "│   │\n" +
                 "└───┘\n" +
@@ -29,17 +34,58 @@ namespace Dropsy
         [Test]
         public void PlayDrawsATwoByTwo()
         {
-            var testObj = new Game(2);
-            var screen = new FakeScreen();
-            testObj.Screen = screen;
-            testObj.Play();
-            Assert.That(screen.Output, Is.EqualTo(
+            CreateTestObj(2);
+            _testObj.Play();
+            Assert.That(_screen.Output, Is.EqualTo(
+                "    2\n" +
                 "┌──────┐\n" +
                 "│      │\n" +
                 "│      │\n" +
                 "└──────┘\n" +
                 "  1  2  \n"
                 ));
+        }
+
+        private void CreateTestObj(int size)
+        {
+            _testObj = new Game(size);
+            _screen = new FakeScreen();
+            _testObj.Screen = _screen;
+            _fakeChipToDrop = new FakeChipGenerator();
+            _fakeChipToDrop.NextDrop = 2;
+            _testObj.ChipGenerator = _fakeChipToDrop;
+        }
+
+
+        [Test]
+        public void PlayDrawsANineByNineAndPutsChipInMiddleColumn()
+        {
+            CreateTestObj(9);
+            _testObj.Play();
+            Assert.That(_screen.Output, Is.EqualTo(
+                "              2\n" +
+                "┌───────────────────────────┐\n" +
+                "│                           │\n" +
+                "│                           │\n" +
+                "│                           │\n" +
+                "│                           │\n" +
+                "│                           │\n" +
+                "│                           │\n" +
+                "│                           │\n" +
+                "│                           │\n" +
+                "│                           │\n" +
+                "└───────────────────────────┘\n" +
+                "  1  2  3  4  5  6  7  8  9  \n"
+                ));
+        }
+    }
+
+    public class FakeChipGenerator : IChipGenerator
+    {
+        public int NextDrop { get; set; }
+        public int Next()
+        {
+            return NextDrop;
         }
     }
 

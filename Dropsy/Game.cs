@@ -11,17 +11,26 @@ namespace Dropsy
         {
             _size = size;
             Screen = new ConsoleScreen();
+            ChipGenerator = new RandomChipGenerator(_size);
             _middleConnector = Repeat("───");
         }
 
         public IScreen Screen { get; set; }
+        public IChipGenerator ChipGenerator { get; set; }
 
         public void Play()
         {
+            ChipToDrop();
             TopBoarder();
             Field();
             BottomBoarder();
             ColumnLabels();
+        }
+
+        private void ChipToDrop()
+        {
+            var nextChip = ChipGenerator.Next();
+            Screen.WriteLine(new string(' ', 3 *_size / 2 + 1) + nextChip);
         }
 
         private void ColumnLabels()
