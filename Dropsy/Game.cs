@@ -6,6 +6,8 @@ namespace Dropsy
     {
         private readonly int _size;
         private readonly string _middleConnector;
+        private string _board;
+        private string _nextChip;
 
         public Game(int size)
         {
@@ -13,6 +15,7 @@ namespace Dropsy
             Screen = new ConsoleScreen();
             ChipGenerator = new RandomChipGenerator(_size);
             _middleConnector = Repeat("───");
+            _board = " ";
         }
 
         public IScreen Screen { get; set; }
@@ -20,22 +23,36 @@ namespace Dropsy
 
         public void Play()
         {
+            SetNextChipToDrop();
             DrawBoard();
+            DropChipIntoColumn(Screen.ReadKey());
+            DrawBoard();
+        }
+
+        public void SetNextChipToDrop()
+        {
+            _nextChip = ChipGenerator.Next().ToString();
+        }
+
+        public void DropChipIntoColumn(int column)
+        {
+            _nextChip = " ";
+            _board = "1";
         }
 
         public void DrawBoard()
         {
-            ChipToDrop();
-            TopBoarder();
+            Screen.Clear();
+            DrawChipToDrop();
+            TopBorder();
             Field();
-            BottomBoarder();
+            BottomBorder();
             ColumnLabels();
         }
 
-        private void ChipToDrop()
+        private void DrawChipToDrop()
         {
-            var nextChip = ChipGenerator.Next();
-            Screen.WriteLine(new string(' ', 3 *_size / 2 + 1) + nextChip);
+            Screen.WriteLine(new string(' ', 3 *_size / 2 + 1) + _nextChip);
         }
 
         private void ColumnLabels()
@@ -47,7 +64,7 @@ namespace Dropsy
             Screen.WriteLine(columnLabels);
         }
 
-        private void BottomBoarder()
+        private void BottomBorder()
         {
             Screen.WriteLine("└" + _middleConnector + "┘");
         }
@@ -55,10 +72,10 @@ namespace Dropsy
         private void Field()
         {
             for (int i = 0; i < _size; i++)
-                Screen.WriteLine("│" + Repeat("   ") + "│");
+                Screen.WriteLine("│" + Repeat($" {_board} ") + "│");
         }
 
-        private void TopBoarder()
+        private void TopBorder()
         {
             Screen.WriteLine("┌" + _middleConnector + "┐");
         }

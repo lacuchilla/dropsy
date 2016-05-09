@@ -24,9 +24,9 @@ namespace Dropsy
             _testObj.Screen = _screen;
             _testObj.Play();
             Assert.That(_screen.Output, Is.EqualTo(
-                "  1\n" +
+                "   \n" +
                 "┌───┐\n" +
-                "│   │\n" +
+                "│ 1 │\n" +
                 "└───┘\n" +
                 "  1  \n"));
         }
@@ -35,7 +35,8 @@ namespace Dropsy
         public void DrawBoardDrawsATwoByTwo()
         {
             CreateTestObj(2);
-            _testObj.Play();
+            _testObj.SetNextChipToDrop();
+            _testObj.DrawBoard();
             Assert.That(_screen.Output, Is.EqualTo(
                 "    2\n" +
                 "┌──────┐\n" +
@@ -61,7 +62,8 @@ namespace Dropsy
         public void DrawBoardDrawsANineByNineAndPutsChipInMiddleColumn()
         {
             CreateTestObj(9);
-            _testObj.Play();
+            _testObj.SetNextChipToDrop();
+            _testObj.DrawBoard();
             Assert.That(_screen.Output, Is.EqualTo(
                 "              2\n" +
                 "┌───────────────────────────┐\n" +
@@ -92,10 +94,22 @@ namespace Dropsy
     public class FakeScreen : IScreen
     {
         public string Output = "";
+        public int NextKey { get; set; }
 
         public void WriteLine(string line)
         {
             Output += line + "\n";
+        }
+
+        public int ReadKey()
+        {
+            NextKey = 1;
+            return NextKey;
+        }
+
+        public void Clear()
+        {
+            Output = "";
         }
     }
 }
