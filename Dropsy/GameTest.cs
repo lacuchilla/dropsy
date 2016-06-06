@@ -36,6 +36,7 @@ namespace Dropsy
         {
             CreateTestObj(2);
             _testObj.SetNextChipToDrop();
+
             _testObj.DrawBoard();
             Assert.That(_screen.Output, Is.EqualTo(
                 "    2\n" +
@@ -78,6 +79,24 @@ namespace Dropsy
                 "│                           │\n" +
                 "└───────────────────────────┘\n" +
                 "  1  2  3  4  5  6  7  8  9  \n"
+                ));
+        }
+
+        [Test]
+        public void DropChipIntoColumnDropsChipToBottomOfSelectedColumn()
+        {
+            CreateTestObj(2);
+            _testObj.SetNextChipToDrop();
+            _testObj.DropChipIntoColumn(2);
+            _testObj.DrawBoard();
+
+            Assert.That(_screen.Output, Is.EqualTo(
+                   "     \n" +
+                "┌──────┐\n" +
+                "│      │\n" +
+                "│    2 │\n" +
+                "└──────┘\n" +
+                "  1  2  \n"
                 ));
         }
     }
