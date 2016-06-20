@@ -6,10 +6,9 @@ namespace Dropsy
     {
         private readonly int _size;
         private readonly string _middleConnector;
-        private string _board;
+        private readonly Board _board;
         private string _nextChip;
-        private int _columnIndex;
-        private string _droppedChip;
+        
 
         public Game(int size)
         {
@@ -17,9 +16,7 @@ namespace Dropsy
             Screen = new ConsoleScreen();
             ChipGenerator = new RandomChipGenerator(_size);
             _middleConnector = Repeat("───");
-            _board = " ";
-            _columnIndex = 0;
-            _droppedChip = "";
+            _board = new Board(size);
         }
 
         public IScreen Screen { get; set; }
@@ -40,11 +37,8 @@ namespace Dropsy
 
         public void DropChipIntoColumn(int column)
         {
-            _droppedChip = _nextChip;
-            _columnIndex = column;
+            _board.AddToColumn(column, _nextChip);
             _nextChip = " ";
-            _board = "1";
-            
         }
 
         public void DrawBoard()
@@ -78,24 +72,19 @@ namespace Dropsy
 
         private void Field()
         {
-            for (int row = 1; row <= _size; row++)
+            for (int row = _size; row > 0; row--)
                 Screen.WriteLine("│" + CreateRow(row) + "│");
 
         }
 
         private string CreateRow(int row)
         {
-            if(row < _size)
-                return new string(' ', 3 * _size);
-           //new string('4', 1 * _size);
             var columnSpace = "";
             for (int column = 1; column <= _size; column++)
-                if (column == _columnIndex)
-                    columnSpace += $" {_droppedChip} ";
-                else
-                {
-                    columnSpace += "   ";
-                }
+            {
+                var center = _board.GetCell(column, row);
+                columnSpace += $" {center} ";
+            }
             return columnSpace;
         }
 

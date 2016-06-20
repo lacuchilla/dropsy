@@ -99,6 +99,45 @@ namespace Dropsy
                 "  1  2  \n"
                 ));
         }
+
+        [Test]
+        public void DropsMoreThanOneChip()
+        {
+            CreateTestObj(2);
+            _testObj.SetNextChipToDrop();
+            _testObj.DropChipIntoColumn(2);
+
+            _testObj.DrawBoard();
+            Assert.That(_screen.Output, Is.EqualTo(
+                   "     \n" +
+                "┌──────┐\n" +
+                "│      │\n" +
+                "│    2 │\n" +
+                "└──────┘\n" +
+                "  1  2  \n"
+                ));
+
+            _fakeChipToDrop.NextDrop = 1;
+            _testObj.SetNextChipToDrop();
+            _testObj.DropChipIntoColumn(2);
+            _testObj.DrawBoard();
+
+            Assert.That(_screen.Output, Is.EqualTo(
+                   "     \n" +
+                "┌──────┐\n" +
+                "│    1 │\n" +
+                "│    2 │\n" +
+                "└──────┘\n" +
+                "  1  2  \n"
+                ));
+        }
+
+
+        [Test]
+        public void GameOver()
+        {
+            
+        }
     }
 
     public class FakeChipGenerator : IChipGenerator
