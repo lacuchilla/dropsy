@@ -4,8 +4,8 @@ namespace Dropsy
 {
     public class RandomChipGenerator : IChipGenerator
     {
-        private int _size;
-        private Random _random = new Random();
+        private readonly Random _random = new Random();
+        private readonly int _size;
 
         public RandomChipGenerator(int size)
         {

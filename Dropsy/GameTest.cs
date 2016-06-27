@@ -9,64 +9,6 @@ namespace Dropsy
         private FakeScreen _screen;
         private FakeChipGenerator _fakeChipToDrop;
 
-        [Test]
-        public void Construction()
-        {
-            var testObj = new Game(1);
-            Assert.That(testObj, Is.Not.Null);
-        }
-
-        [Test]
-        public void PlayDrawsAOneByOne()
-        {
-            _testObj = new Game(1);
-            _screen = new FakeScreen();
-            _testObj.Screen = _screen;
-            _screen.NextKey = 1;
-            _testObj.Play();
-            Assert.That(_screen.Output, Is.EqualTo(
-                "   \n" +
-                "┌───┐\n" +
-                "│ 1 │\n" +
-                "└───┘\n" +
-                "  1  \n"));
-        }
-
-        [Test]
-        public void PlayTakesANumberOfTurnsToPlay()
-        {
-            CreateTestObj(3);
-            _screen.NextKey = 2;
-            _testObj.Play(3);
-
-            Assert.That(_screen.Output, Is.EqualTo(
-               "      \n" +
-               "┌─────────┐\n" +
-               "│    2    │\n" +
-               "│    2    │\n" +
-               "│    2    │\n" +
-               "└─────────┘\n" +
-               "  1  2  3  \n"
-               ));
-        }
-
-        [Test]
-        public void DrawBoardDrawsATwoByTwo()
-        {
-            CreateTestObj(2);
-            _testObj.SetNextChipToDrop();
-
-            _testObj.DrawBoard();
-            Assert.That(_screen.Output, Is.EqualTo(
-                "    2\n" +
-                "┌──────┐\n" +
-                "│      │\n" +
-                "│      │\n" +
-                "└──────┘\n" +
-                "  1  2  \n"
-                ));
-        }
-
         private void CreateTestObj(int size)
         {
             _testObj = new Game(size);
@@ -75,6 +17,13 @@ namespace Dropsy
             _fakeChipToDrop = new FakeChipGenerator();
             _fakeChipToDrop.NextDrop = 2;
             _testObj.ChipGenerator = _fakeChipToDrop;
+        }
+
+        [Test]
+        public void Construction()
+        {
+            var testObj = new Game(1);
+            Assert.That(testObj, Is.Not.Null);
         }
 
 
@@ -102,6 +51,23 @@ namespace Dropsy
         }
 
         [Test]
+        public void DrawBoardDrawsATwoByTwo()
+        {
+            CreateTestObj(2);
+            _testObj.SetNextChipToDrop();
+
+            _testObj.DrawBoard();
+            Assert.That(_screen.Output, Is.EqualTo(
+                "    2\n" +
+                "┌──────┐\n" +
+                "│      │\n" +
+                "│      │\n" +
+                "└──────┘\n" +
+                "  1  2  \n"
+                ));
+        }
+
+        [Test]
         public void DropChipIntoColumnDropsChipToBottomOfSelectedColumn()
         {
             CreateTestObj(2);
@@ -110,7 +76,7 @@ namespace Dropsy
             _testObj.DrawBoard();
 
             Assert.That(_screen.Output, Is.EqualTo(
-                   "     \n" +
+                "     \n" +
                 "┌──────┐\n" +
                 "│      │\n" +
                 "│    2 │\n" +
@@ -128,7 +94,7 @@ namespace Dropsy
 
             _testObj.DrawBoard();
             Assert.That(_screen.Output, Is.EqualTo(
-                   "     \n" +
+                "     \n" +
                 "┌──────┐\n" +
                 "│      │\n" +
                 "│    2 │\n" +
@@ -142,7 +108,7 @@ namespace Dropsy
             _testObj.DrawBoard();
 
             Assert.That(_screen.Output, Is.EqualTo(
-                   "     \n" +
+                "     \n" +
                 "┌──────┐\n" +
                 "│    1 │\n" +
                 "│    2 │\n" +
@@ -155,13 +121,47 @@ namespace Dropsy
         [Test]
         public void GameOver()
         {
-            
+        }
+
+        [Test]
+        public void PlayDrawsAOneByOne()
+        {
+            _testObj = new Game(1);
+            _screen = new FakeScreen();
+            _testObj.Screen = _screen;
+            _screen.NextKey = 1;
+            _testObj.Play();
+            Assert.That(_screen.Output, Is.EqualTo(
+                "   \n" +
+                "┌───┐\n" +
+                "│ 1 │\n" +
+                "└───┘\n" +
+                "  1  \n"));
+        }
+
+        [Test]
+        public void PlayTakesANumberOfTurnsToPlay()
+        {
+            CreateTestObj(3);
+            _screen.NextKey = 2;
+            _testObj.Play(3);
+
+            Assert.That(_screen.Output, Is.EqualTo(
+                "      \n" +
+                "┌─────────┐\n" +
+                "│    2    │\n" +
+                "│    2    │\n" +
+                "│    2    │\n" +
+                "└─────────┘\n" +
+                "  1  2  3  \n"
+                ));
         }
     }
 
     public class FakeChipGenerator : IChipGenerator
     {
         public int NextDrop { get; set; }
+
         public int Next()
         {
             return NextDrop;

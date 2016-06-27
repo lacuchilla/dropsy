@@ -1,14 +1,12 @@
-﻿using System;
-
-namespace Dropsy
+﻿namespace Dropsy
 {
     public class Game
     {
-        private readonly int _size;
-        private readonly string _middleConnector;
         private readonly Board _board;
+        private readonly string _middleConnector;
+        private readonly int _size;
         private string _nextChip;
-        
+
 
         public Game(int size)
         {
@@ -22,7 +20,7 @@ namespace Dropsy
         public IScreen Screen { get; set; }
         public IChipGenerator ChipGenerator { get; set; }
 
-        public void Play( int rounds = 1)
+        public void Play(int rounds = 1)
         {
             for (var turn = 0; turn < rounds; turn += 1)
             {
@@ -56,13 +54,13 @@ namespace Dropsy
 
         private void DrawChipToDrop()
         {
-            Screen.WriteLine(new string(' ', 3 *_size / 2 + 1) + _nextChip);
+            Screen.WriteLine(new string(' ', 3*_size/2 + 1) + _nextChip);
         }
 
         private void ColumnLabels()
         {
             var columnLabels = " ";
-            for (int i = 1; i <= _size; i++)
+            for (var i = 1; i <= _size; i++)
                 columnLabels += $" {i} ";
             columnLabels += " ";
             Screen.WriteLine(columnLabels);
@@ -75,15 +73,14 @@ namespace Dropsy
 
         private void Field()
         {
-            for (int row = _size; row > 0; row--)
+            for (var row = _size; row > 0; row--)
                 Screen.WriteLine("│" + CreateRow(row) + "│");
-
         }
 
         private string CreateRow(int row)
         {
             var columnSpace = "";
-            for (int column = 1; column <= _size; column++)
+            for (var column = 1; column <= _size; column++)
             {
                 var center = _board.GetCell(column, row);
                 columnSpace += $" {center} ";
@@ -99,7 +96,7 @@ namespace Dropsy
         private string Repeat(string s)
         {
             var output = "";
-            for (int i = 0; i < _size; i++)
+            for (var i = 0; i < _size; i++)
                 output += s;
             return output;
         }
