@@ -32,15 +32,21 @@ namespace Dropsy
 
         public string GetCell(int column, int row)
         {
-            // TODO using exceptions for flow control is bad :(
-            try
-            {
-                return _columns[column - 1].Data[row - 1];
-            }
-            catch (Exception)
-            {
+            if (!InRange(column, row))
                 return " ";
-            }
+
+            return _columns[column - 1].Data[row - 1];
+        }
+
+        private bool InRange(int column, int row)
+        {
+            if (column > _columns.Count || column < 1)
+                return false;
+
+            if (row > _columns[column - 1].Data.Count || row < 1)
+                return false;
+
+            return true;
         }
     }
 }
