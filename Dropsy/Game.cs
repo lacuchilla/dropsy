@@ -22,12 +22,15 @@ namespace Dropsy
         public IScreen Screen { get; set; }
         public IChipGenerator ChipGenerator { get; set; }
 
-        public void Play()
+        public void Play( int rounds = 1)
         {
-            SetNextChipToDrop();
-            DrawBoard();
-            DropChipIntoColumn(Screen.ReadKey());
-            DrawBoard();
+            for (var turn = 0; turn < rounds; turn += 1)
+            {
+                SetNextChipToDrop();
+                DrawBoard();
+                DropChipIntoColumn(Screen.ReadKey());
+                DrawBoard();
+            }
         }
 
         public void SetNextChipToDrop()

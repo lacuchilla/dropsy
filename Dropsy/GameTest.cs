@@ -22,6 +22,7 @@ namespace Dropsy
             _testObj = new Game(1);
             _screen = new FakeScreen();
             _testObj.Screen = _screen;
+            _screen.NextKey = 1;
             _testObj.Play();
             Assert.That(_screen.Output, Is.EqualTo(
                 "   \n" +
@@ -29,6 +30,24 @@ namespace Dropsy
                 "│ 1 │\n" +
                 "└───┘\n" +
                 "  1  \n"));
+        }
+
+        [Test]
+        public void PlayTakesANumberOfTurnsToPlay()
+        {
+            CreateTestObj(3);
+            _screen.NextKey = 2;
+            _testObj.Play(3);
+
+            Assert.That(_screen.Output, Is.EqualTo(
+               "      \n" +
+               "┌─────────┐\n" +
+               "│    2    │\n" +
+               "│    2    │\n" +
+               "│    2    │\n" +
+               "└─────────┘\n" +
+               "  1  2  3  \n"
+               ));
         }
 
         [Test]
@@ -161,7 +180,6 @@ namespace Dropsy
 
         public int ReadKey()
         {
-            NextKey = 1;
             return NextKey;
         }
 

@@ -12,7 +12,7 @@ namespace Dropsy
         static void Main(string[] args)
         {
             var game = new Game(9);
-            game.Play();
+            game.Play(25);
         }
     }
 }
