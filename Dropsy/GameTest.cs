@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+using NUnit.Framework;
 
 namespace Dropsy
 {
@@ -156,7 +157,42 @@ namespace Dropsy
                 "  1  2  3  \n"
                 ));
         }
+
+        [Test]
+        public void PlayDoesntTakeNewChipsForFullColumn()
+        {
+            var testObj = new Game(2);
+            var queuedChipGenerator = new QueuedChipGenerator();
+            queuedChipGenerator.Queue.Enqueue(1);
+            queuedChipGenerator.Queue.Enqueue(1);
+            queuedChipGenerator.Queue.Enqueue(1);
+            queuedChipGenerator.Queue.Enqueue(2);
+            testObj.ChipGenerator = queuedChipGenerator;
+            var screen = new FakeScreen();
+            testObj.Screen = screen;
+            screen.NextKey = 1;
+            testObj.Play(4);
+
+            Assert.That(screen.Output, Is.EqualTo(
+                "   1 \n" +
+                "┌──────┐\n" +
+                "│ 1    │\n" +
+                "│ 1    │\n" +
+                "└──────┘\n" +
+                "  1  2  \n"
+                ));
+        }
     }
+
+    public class QueuedChipGenerator : IChipGenerator
+    {
+        public Queue<int> Queue = new Queue<int>();
+        public int Next()
+        {
+            return Queue.Dequeue();
+        }
+    }
+
 
     public class FakeChipGenerator : IChipGenerator
     {
