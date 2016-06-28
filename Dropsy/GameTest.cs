@@ -87,6 +87,14 @@ namespace Dropsy
         }
 
         [Test]
+        public void DropChip
+        {
+            
+        }
+
+
+
+        [Test]
         public void DropsMoreThanOneChip()
         {
             CreateTestObj(2);
