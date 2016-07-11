@@ -87,5 +87,15 @@ namespace Dropsy
         {
             Assert.That(_testObj.ColumnIsFull(1), Is.False);
         }
+
+        [Test]
+        public void BoardIsFull_WhenAllColumnsAreFull()
+        {
+            _testObj.AddToColumn(1, "1");
+            _testObj.AddToColumn(1, "1");
+            _testObj.AddToColumn(2, "1");
+            _testObj.AddToColumn(2, "1");
+            Assert.That(_testObj.IsFull(), Is.True);
+        }
     }
 }

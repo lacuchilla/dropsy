@@ -6,10 +6,13 @@
         private readonly string _middleConnector;
         private readonly int _size;
         private string _nextChip;
+        private int _turns;
+        private int _maxTurns;
 
 
-        public Game(int size)
+        public Game(int size, int maxTurns = 0)
         {
+            _maxTurns = maxTurns;
             _size = size;
             Screen = new ConsoleScreen();
             ChipGenerator = new RandomChipGenerator(_size);
@@ -20,25 +23,29 @@
         public IScreen Screen { get; set; }
         public IChipGenerator ChipGenerator { get; set; }
 
-        public void Play(int rounds = 1)
+        public void Play()
         {
             bool needsNewChip = true;
-
-            for (var turn = 0; turn < rounds; turn += 1)
+            
+            while(!GameIsOver())
             {
                 if (needsNewChip)
                 {
                     SetNextChipToDrop();
                     DrawBoard();
-                    needsNewChip = DropChipIntoColumn(Screen.ReadKey());
-                    DrawBoard();
                 }
-                else
-                {
-                    needsNewChip = DropChipIntoColumn(Screen.ReadKey());
-                    DrawBoard();
-                }
+                needsNewChip = DropChipIntoColumn(Screen.ReadKey());
+                DrawBoard();
+                _turns++;
             }
+        }
+
+        public bool GameIsOver()
+        {
+            if (_maxTurns != 0 && _turns > _maxTurns)
+                return true;
+
+            return _board.IsFull();
         }
 
         public void SetNextChipToDrop()

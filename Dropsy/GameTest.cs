@@ -121,12 +121,6 @@ namespace Dropsy
                 ));
         }
 
-
-        [Test]
-        public void GameOver()
-        {
-        }
-
         [Test]
         public void PlayDrawsAOneByOne()
         {
@@ -144,27 +138,9 @@ namespace Dropsy
         }
 
         [Test]
-        public void PlayTakesANumberOfTurnsToPlay()
-        {
-            CreateTestObj(3);
-            _screen.NextKey = 2;
-            _testObj.Play(3);
-
-            Assert.That(_screen.Output, Is.EqualTo(
-                "      \n" +
-                "┌─────────┐\n" +
-                "│    2    │\n" +
-                "│    2    │\n" +
-                "│    2    │\n" +
-                "└─────────┘\n" +
-                "  1  2  3  \n"
-                ));
-        }
-
-        [Test]
         public void PlayDoesntTakeNewChipsForFullColumn()
         {
-            var testObj = new Game(2);
+            var testObj = new Game(2, 3);
             var queuedChipGenerator = new QueuedChipGenerator();
             queuedChipGenerator.Queue.Enqueue(1);
             queuedChipGenerator.Queue.Enqueue(1);
@@ -174,7 +150,7 @@ namespace Dropsy
             var screen = new FakeScreen();
             testObj.Screen = screen;
             screen.NextKey = 1;
-            testObj.Play(4);
+            testObj.Play();
 
             Assert.That(screen.Output, Is.EqualTo(
                 "    1\n" +

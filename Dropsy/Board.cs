@@ -54,5 +54,15 @@ namespace Dropsy
         {
             return _columns[column - 1].Data.Count >= _size;
         }
+
+        public bool IsFull()
+        {
+            for (var col = 0; col < _size; col++ )
+            {
+                if (!ColumnIsFull(col+1))
+                    return false;
+            }
+            return true;
+        }
     }
 }
