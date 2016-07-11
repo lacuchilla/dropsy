@@ -86,11 +86,6 @@ namespace Dropsy
                 ));
         }
 
-        [Test]
-        public void DropChip
-        {
-            
-        }
 
 
 
@@ -182,7 +177,7 @@ namespace Dropsy
             testObj.Play(4);
 
             Assert.That(screen.Output, Is.EqualTo(
-                "   1 \n" +
+                "    1\n" +
                 "┌──────┐\n" +
                 "│ 1    │\n" +
                 "│ 1    │\n" +

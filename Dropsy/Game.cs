@@ -22,12 +22,22 @@
 
         public void Play(int rounds = 1)
         {
+            bool needsNewChip = true;
+
             for (var turn = 0; turn < rounds; turn += 1)
             {
-                SetNextChipToDrop();
-                DrawBoard();
-                DropChipIntoColumn(Screen.ReadKey());
-                DrawBoard();
+                if (needsNewChip)
+                {
+                    SetNextChipToDrop();
+                    DrawBoard();
+                    needsNewChip = DropChipIntoColumn(Screen.ReadKey());
+                    DrawBoard();
+                }
+                else
+                {
+                    needsNewChip = DropChipIntoColumn(Screen.ReadKey());
+                    DrawBoard();
+                }
             }
         }
 
@@ -36,10 +46,15 @@
             _nextChip = ChipGenerator.Next().ToString();
         }
 
-        public void DropChipIntoColumn(int column)
+        public bool DropChipIntoColumn(int column)
         {
+            if (_board.ColumnIsFull(column))
+                return false;
+
             _board.AddToColumn(column, _nextChip);
             _nextChip = " ";
+
+            return true;
         }
 
         public void DrawBoard()

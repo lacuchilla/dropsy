@@ -73,5 +73,19 @@ namespace Dropsy
             _testObj.AddToColumn(1, "5");
             Assert.That(_testObj.GetCell(1, 1), Is.EqualTo("5"));
         }
+
+        [Test]
+        public void ColumnIsFull_ReturnsTrueWhenColumnMatchesSizeOfBoard()
+        {
+            _testObj.AddToColumn(1, "1");
+            _testObj.AddToColumn(1, "1");
+            Assert.That(_testObj.ColumnIsFull(1), Is.True);
+        }
+
+        [Test]
+        public void ColumnIsFull_ReturnsFalseWhenColumnEmpty()
+        {
+            Assert.That(_testObj.ColumnIsFull(1), Is.False);
+        }
     }
 }

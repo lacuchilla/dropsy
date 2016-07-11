@@ -1,13 +1,16 @@
 using System.Collections.Generic;
+using NUnit.Framework.Constraints;
 
 namespace Dropsy
 {
     internal class Board
     {
         private readonly List<Column> _columns;
+        private int _size;
 
         public Board(int size)
         {
+            _size = size;
             _columns = new List<Column>();
             for (var i = 0; i < size; i += 1)
                 _columns.Add(new Column());
@@ -45,6 +48,11 @@ namespace Dropsy
             {
                 Data = new List<string>();
             }
+        }
+
+        public bool ColumnIsFull(int column)
+        {
+            return _columns[column - 1].Data.Count >= _size;
         }
     }
 }
