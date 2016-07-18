@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
+using NUnit.Framework.Interfaces;
 
 namespace Dropsy
 {
@@ -86,9 +87,6 @@ namespace Dropsy
                 ));
         }
 
-
-
-
         [Test]
         public void DropsMoreThanOneChip()
         {
@@ -127,7 +125,7 @@ namespace Dropsy
             _testObj = new Game(1);
             _screen = new FakeScreen();
             _testObj.Screen = _screen;
-            _screen.NextKey = 1;
+            _screen.SetNextkey(1);
             _testObj.Play();
             Assert.That(_screen.Output, Is.EqualTo(
                 "   \n" +
@@ -149,7 +147,7 @@ namespace Dropsy
             testObj.ChipGenerator = queuedChipGenerator;
             var screen = new FakeScreen();
             testObj.Screen = screen;
-            screen.NextKey = 1;
+            screen.SetNextkey(1);
             testObj.Play();
 
             Assert.That(screen.Output, Is.EqualTo(
@@ -159,6 +157,34 @@ namespace Dropsy
                 "│ 1    │\n" +
                 "└──────┘\n" +
                 "  1  2  \n"
+                ));
+        }
+
+        [Test]
+        public void AddsBlocksAfterFiveTurns()
+        {
+            var testObj = new Game(3, 5);
+            var queuedChipGenerator = new QueuedChipGenerator();
+            queuedChipGenerator.Queue.Enqueue(1);
+            queuedChipGenerator.Queue.Enqueue(2);
+            queuedChipGenerator.Queue.Enqueue(3);
+            queuedChipGenerator.Queue.Enqueue(2);
+            queuedChipGenerator.Queue.Enqueue(3);
+            queuedChipGenerator.Queue.Enqueue(1);
+            queuedChipGenerator.Queue.Enqueue(1);
+            testObj.ChipGenerator = queuedChipGenerator;
+            var screen = new FakeScreen();
+            testObj.Screen = screen;
+            screen.QueueNextKeys(new List<int>() { 1, 2, 3, 1, 2});
+            testObj.Play();
+            Assert.That(screen.Output, Is.EqualTo(
+                "     1\n" +
+                "┌─────────┐\n" +
+                "│ 2  3    │\n" +
+                "│ 1  2  3 │\n" +
+                "│ █  █  █ │\n" +
+                "└─────────┘\n" +
+                "  1  2  3  \n"
                 ));
         }
     }
@@ -186,7 +212,14 @@ namespace Dropsy
     public class FakeScreen : IScreen
     {
         public string Output = "";
-        public int NextKey { get; set; }
+        private List<int> _keys = new List<int>();
+        private int _currentKey;
+
+        public void SetNextkey(int key)
+        {
+            _currentKey = 0;
+            _keys.Add(key);
+        }
 
         public void WriteLine(string line)
         {
@@ -195,12 +228,21 @@ namespace Dropsy
 
         public int ReadKey()
         {
-            return NextKey;
+            var retValue = _keys[_currentKey];
+            if (_currentKey < _keys.Count - 1)
+                _currentKey++;
+            return retValue;
         }
 
         public void Clear()
         {
             Output = "";
+        }
+
+        public void QueueNextKeys(List<int> keys )
+        {
+            _keys = keys;
+            _currentKey = 0;
         }
     }
 }

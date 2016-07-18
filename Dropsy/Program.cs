@@ -5,7 +5,8 @@
  * 3. random drop chip at top center
  * 4. user picks which column the chip drops into
  * 5. drops stack, dropping into full column does nothing, & game ends when all columns full
- *>6. Add a row of blocks every fifth turn (character 219 █ )
+ * 6. Add a row of blocks every fifth turn (character 219 █ )
+ *>7. If adding blocks causes column to overflow, end game.
  */
 
 namespace Dropsy

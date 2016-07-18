@@ -8,6 +8,7 @@
         private string _nextChip;
         private int _attemptedTurns;
         private readonly int _maxAttemptedTurns;
+        private int _turn;
 
         public Game(int size, int maxAttemptedTurns = 0)
         {
@@ -22,9 +23,15 @@
         public IScreen Screen { get; set; }
         public IChipGenerator ChipGenerator { get; set; }
 
+        private bool ShouldShiftColumns()
+        {
+            return  _turn%5 == 0;
+        }
+
         public void Play()
         {
-            bool needsNewChip = true;
+            var needsNewChip = true;
+            _turn = 0;
             
             while(!GameIsOver())
             {
@@ -34,9 +41,20 @@
                     DrawBoard();
                 }
                 needsNewChip = DropChipIntoColumn(Screen.ReadKey());
+                if (needsNewChip)
+                {
+                    _turn++;
+                    if (ShouldShiftColumns())
+                        ShiftColumnsUp();
+                }
                 DrawBoard();
                 _attemptedTurns++;
             }
+        }
+
+        private void ShiftColumnsUp()
+        {
+            _board.ShiftColumnsUp();
         }
 
         public bool GameIsOver()

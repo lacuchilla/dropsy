@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NUnit.Framework.Constraints;
 
 namespace Dropsy
@@ -48,6 +48,11 @@ namespace Dropsy
             {
                 Data = new List<string>();
             }
+
+            public void ShiftUp()
+            {
+                Data.Insert(0, "█");
+            }
         }
 
         public bool ColumnIsFull(int column)
@@ -63,6 +68,12 @@ namespace Dropsy
                     return false;
             }
             return true;
+        }
+
+        public void ShiftColumnsUp()
+        {
+            foreach (var column in _columns)
+                column.ShiftUp();
         }
     }
 }
