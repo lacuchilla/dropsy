@@ -1,5 +1,3 @@
-# dropsy
-dropsy kata
 Dropsy is a C# version of the game Drop 7. This was a C# practice exercise that I collaborated on with other engineers during my internship at Enlearn. We were given a series of "stories" that increased in complexity, and we only knew one story at a time, and we often had to rethink our strategies and refactor code to complete each subsequent story.
 Stories so far:
 
