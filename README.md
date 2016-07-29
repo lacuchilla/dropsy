@@ -1,5 +1,5 @@
-Dropsy is a C# version of the game Drop 7. This was a C# practice exercise that I collaborated on with other engineers during my internship at Enlearn. We were given a series of "stories" that increased in complexity, and we only knew one story at a time, and we often had to rethink our strategies and refactor code to complete each subsequent story.
-Stories so far:
+Dropsy is a C# version of the game Drop7 
+[Drop7](https://en.wikipedia.org/wiki/Drop7 "Google's Homepage"). This was a C# practice exercise that I collaborated on with other engineers during my internship at Enlearn. We were given a series of "stories" that increased in complexity. We only knew one story at a time, and we often had to rethink our strategies and refactor code to complete each subsequent story.
 
 Completed Stories:
  1. Build and display an empty 1x1 to 9x9 box
