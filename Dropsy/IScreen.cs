@@ -5,5 +5,6 @@
         void WriteLine(string line);
         int ReadKey();
         void Clear();
+        void Pause();
     }
 }

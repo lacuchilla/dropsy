@@ -32,16 +32,6 @@ namespace Dropsy
             return _columns[column - 1].Data[row - 1];
         }
 
-        public void PopOnes()
-        {
-            foreach (var column in _columns)
-            {
-                if (column.Data.Count == 1 && column.Data[0] == "1")
-                {
-                    column.Data.Clear();
-                }
-            }
-        }
 
         private bool InRange(int column, int row)
         {
@@ -84,6 +74,40 @@ namespace Dropsy
         {
             foreach (var column in _columns)
                 column.ShiftUp();
+        }
+
+        public bool AnythingToPop()
+        {
+            foreach (var column in _columns)
+            {
+                if (column.Data.Count == 1 && column.Data[0] == "1")
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public void ToAsterisks()
+        {
+            foreach (var column in _columns)
+            {
+                if (column.Data.Count == 1 && column.Data[0] == "1")
+                {
+                    column.Data[0] = "*";
+                }
+            }
+        }
+
+        public void RemoveAsterisks()
+        {
+            foreach (var column in _columns)
+            {
+                if (column.Data.Count == 1 && column.Data[0] == "*")
+                {
+                    column.Data.Clear();
+                }
+            }
         }
 
         private class Column

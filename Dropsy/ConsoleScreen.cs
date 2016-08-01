@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace Dropsy
 {
@@ -18,6 +19,11 @@ namespace Dropsy
         public void Clear()
         {
             Console.Clear();
+        }
+
+        public void Pause()
+        {
+            Thread.Sleep(500);
         }
     }
 }

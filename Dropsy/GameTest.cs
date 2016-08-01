@@ -36,7 +36,7 @@ namespace Dropsy
             testObj.Screen = screen;
             screen.QueueNextKeys(new List<int> {1, 2, 3, 1, 2});
             testObj.Play();
-            Assert.That(screen.Output, Is.EqualTo(
+            Assert.That(screen.LastOutput, Is.EqualTo(
                 "     3\n" +
                 "┌─────────┐\n" +
                 "│ 2  3    │\n" +
@@ -65,7 +65,7 @@ namespace Dropsy
             testObj.Screen = screen;
             screen.QueueNextKeys(new List<int> {1, 1, 1, 2, 2, 3});
             testObj.Play();
-            Assert.That(screen.Output, Is.EqualTo(
+            Assert.That(screen.LastOutput, Is.EqualTo(
                 "      \n" +
                 "┌─────────┐\n" +
                 "│ 5  5    │\n" +
@@ -90,7 +90,7 @@ namespace Dropsy
             CreateTestObj(9);
             _testObj.SetNextChipToDrop();
             _testObj.DrawBoard();
-            Assert.That(_screen.Output, Is.EqualTo(
+            Assert.That(_screen.LastOutput, Is.EqualTo(
                 "              2\n" +
                 "┌───────────────────────────┐\n" +
                 "│                           │\n" +
@@ -114,7 +114,7 @@ namespace Dropsy
             _testObj.SetNextChipToDrop();
 
             _testObj.DrawBoard();
-            Assert.That(_screen.Output, Is.EqualTo(
+            Assert.That(_screen.LastOutput, Is.EqualTo(
                 "    2\n" +
                 "┌──────┐\n" +
                 "│      │\n" +
@@ -132,7 +132,7 @@ namespace Dropsy
             _testObj.DropChipIntoColumn(2);
             _testObj.DrawBoard();
 
-            Assert.That(_screen.Output, Is.EqualTo(
+            Assert.That(_screen.LastOutput, Is.EqualTo(
                 "     \n" +
                 "┌──────┐\n" +
                 "│      │\n" +
@@ -154,7 +154,24 @@ namespace Dropsy
             testObj.Screen = screen;
             screen.SetNextkey(1);
             testObj.Play();
-            Assert.That(screen.Output, Is.EqualTo(
+            var last = screen.Outputs.Count - 1;
+            Assert.That(screen.Outputs[last - 2], Is.EqualTo(
+                "     \n" +
+                "┌──────┐\n" +
+                "│      │\n" +
+                "│ 1    │\n" +
+                "└──────┘\n" +
+                "  1  2  \n"
+                ));
+            Assert.That(screen.Outputs[last - 1], Is.EqualTo(
+                "     \n" +
+                "┌──────┐\n" +
+                "│      │\n" +
+                "│ *    │\n" +
+                "└──────┘\n" +
+                "  1  2  \n"
+                ));
+            Assert.That(screen.Outputs[last], Is.EqualTo(
                 "     \n" +
                 "┌──────┐\n" +
                 "│      │\n" +
@@ -172,7 +189,7 @@ namespace Dropsy
             _testObj.DropChipIntoColumn(2);
 
             _testObj.DrawBoard();
-            Assert.That(_screen.Output, Is.EqualTo(
+            Assert.That(_screen.LastOutput, Is.EqualTo(
                 "     \n" +
                 "┌──────┐\n" +
                 "│      │\n" +
@@ -186,7 +203,7 @@ namespace Dropsy
             _testObj.DropChipIntoColumn(2);
             _testObj.DrawBoard();
 
-            Assert.That(_screen.Output, Is.EqualTo(
+            Assert.That(_screen.LastOutput, Is.EqualTo(
                 "     \n" +
                 "┌──────┐\n" +
                 "│    1 │\n" +
@@ -211,7 +228,7 @@ namespace Dropsy
             screen.SetNextkey(1);
             testObj.Play();
 
-            Assert.That(screen.Output, Is.EqualTo(
+            Assert.That(screen.LastOutput, Is.EqualTo(
                 "    2\n" +
                 "┌──────┐\n" +
                 "│ 2    │\n" +
@@ -245,13 +262,17 @@ namespace Dropsy
 
     public class FakeScreen : IScreen
     {
+        private readonly List<string> _outputs = new List<string>();
         private int _currentKey;
         private List<int> _keys = new List<int>();
-        public string Output = "";
+
+        public string LastOutput => _outputs[_outputs.Count - 1];
+
+        public IReadOnlyList<string> Outputs => _outputs;
 
         public void WriteLine(string line)
         {
-            Output += line + "\n";
+            _outputs[_outputs.Count - 1] += line + "\n";
         }
 
         public int ReadKey()
@@ -264,7 +285,11 @@ namespace Dropsy
 
         public void Clear()
         {
-            Output = "";
+            _outputs.Add("");
+        }
+
+        public void Pause()
+        {
         }
 
         public void SetNextkey(int key)
