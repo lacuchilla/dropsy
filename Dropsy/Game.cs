@@ -41,6 +41,7 @@
                     DrawBoard();
                 }
                 needsNewChip = DropChipIntoColumn(Screen.ReadKey());
+                _board.PopOnes();
                 if (needsNewChip)
                 {
                     _turn++;
@@ -59,7 +60,7 @@
 
         private bool GameIsOver()
         {
-            if (_maxAttemptedTurns != 0 && _attemptedTurns > _maxAttemptedTurns)
+            if (_maxAttemptedTurns != 0 && _attemptedTurns >= _maxAttemptedTurns)
                 return true;
 
             return _board.IsFull() || _board.ColumnOverflowCheck();

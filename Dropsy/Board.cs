@@ -17,7 +17,11 @@ namespace Dropsy
 
         public void AddToColumn(int column, string chip)
         {
-            _columns[column - 1].Data.Add(chip); // TODO trainwreck :(
+            _columns[column - 1].Add(chip);
+
+            //if chip is 1 on an empty board, chip should turn into an asterisk and disappear
+            //
+            //(chip needs to check its neighbors on the left, right, and above and below later)
         }
 
         public string GetCell(int column, int row)
@@ -26,6 +30,17 @@ namespace Dropsy
                 return " ";
 
             return _columns[column - 1].Data[row - 1];
+        }
+
+        public void PopOnes()
+        {
+            foreach (var column in _columns)
+            {
+                if (column.Data.Count == 1 && column.Data[0] == "1")
+                {
+                    column.Data.Clear();
+                }
+            }
         }
 
         private bool InRange(int column, int row)
@@ -83,6 +98,11 @@ namespace Dropsy
             public void ShiftUp()
             {
                 Data.Insert(0, "█");
+            }
+
+            public void Add(string chip)
+            {
+                Data.Add(chip);
             }
         }
     }
