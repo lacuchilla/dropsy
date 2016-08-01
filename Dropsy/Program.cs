@@ -6,7 +6,8 @@
  * 4. user picks which column the chip drops into
  * 5. drops stack, dropping into full column does nothing, & game ends when all columns full
  * 6. Add a row of blocks every fifth turn (character 219 █ )
- *>7. If adding blocks causes column to overflow, end game.
+ * 7. If adding blocks causes column to overflow, end game.
+ * 8. Popping- a chip pops if it is in a colum with the same number of chips as its value or if its in a row with the same number of chips touching it continually draw the chip, draw an asterisk, then make it disappear
  */
 
 namespace Dropsy
