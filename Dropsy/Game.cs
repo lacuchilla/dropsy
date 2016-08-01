@@ -1,6 +1,4 @@
-﻿using System.Threading;
-
-namespace Dropsy
+﻿namespace Dropsy
 {
     public class Game
     {
@@ -46,6 +44,7 @@ namespace Dropsy
 
                 if (needsNewChip)
                 {
+                    _turn++;
                     if (_board.AnythingToPop())
                     {
                         DrawBoard();
@@ -55,10 +54,8 @@ namespace Dropsy
                         Screen.Pause();
                         _board.RemoveAsterisks();
                     }
-                    _turn++;
                     if (ShouldShiftColumns())
                         ShiftColumnsUp();
-
                     DrawBoard();
                     Screen.Pause();
                 }

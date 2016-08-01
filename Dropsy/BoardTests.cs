@@ -28,6 +28,28 @@ namespace Dropsy
         }
 
         [Test]
+        public void AnythingToPop_IsFalseOnEmptyBoard()
+        {
+            Assert.That(_testObj.AnythingToPop(), Is.False);
+        }
+
+        [Test]
+        public void AnythingToPop_IsTrueWhenOnlyOneOne()
+        {
+            _testObj.AddToColumn(1, "1");
+            Assert.That(_testObj.AnythingToPop(), Is.True);
+        }
+
+        [Test]
+        public void AnythingToPop_IsTrueWithTwoTwosInARow()
+        {
+            _testObj.AddToColumn(1, "2");
+            Assert.That(_testObj.AnythingToPop(), Is.False);
+            _testObj.AddToColumn(2, "2");
+            Assert.That(_testObj.AnythingToPop(), Is.True);
+        }
+
+        [Test]
         public void Board_ReturnsAnEmptyBoard()
         {
             Assert.That(_testObj.GetCell(1, 1), Is.EqualTo(" "));
