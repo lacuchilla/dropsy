@@ -13,7 +13,7 @@ namespace Dropsy
 
         private Board _testObj;
 
-        private void AssertCellBlank(string result)
+        private static void AssertCellBlank(string result)
         {
             Assert.That(result, Is.EqualTo(" "));
         }
@@ -35,12 +35,36 @@ namespace Dropsy
         }
 
         [Test]
+        public void BoardIsFull_WhenAllColumnsAreFull()
+        {
+            _testObj.AddToColumn(1, "1");
+            _testObj.AddToColumn(1, "1");
+            _testObj.AddToColumn(2, "1");
+            _testObj.AddToColumn(2, "1");
+            Assert.That(_testObj.IsFull(), Is.True);
+        }
+
+        [Test]
         public void ChipsStack()
         {
             _testObj.AddToColumn(1, "5");
             _testObj.AddToColumn(1, "3");
             Assert.That(_testObj.GetCell(1, 1), Is.EqualTo("5"));
             Assert.That(_testObj.GetCell(1, 2), Is.EqualTo("3"));
+        }
+
+        [Test]
+        public void ColumnIsFull_ReturnsFalseWhenColumnEmpty()
+        {
+            Assert.That(_testObj.ColumnIsFull(1), Is.False);
+        }
+
+        [Test]
+        public void ColumnIsFull_ReturnsTrueWhenColumnMatchesSizeOfBoard()
+        {
+            _testObj.AddToColumn(1, "1");
+            _testObj.AddToColumn(1, "1");
+            Assert.That(_testObj.ColumnIsFull(1), Is.True);
         }
 
         [Test]
@@ -68,34 +92,25 @@ namespace Dropsy
         }
 
         [Test]
+        public void OverflowCheck_ReturnsFalseWhenNotOverflown()
+        {
+            Assert.That(_testObj.ColumnOverflowCheck(), Is.False);
+        }
+
+        [Test]
+        public void OverflowCheck_ReturnsTrueWhenAnyColumnOverflows()
+        {
+            _testObj.AddToColumn(1, "5");
+            _testObj.ShiftColumnsUp();
+            _testObj.ShiftColumnsUp();
+            Assert.That(_testObj.ColumnOverflowCheck(), Is.True);
+        }
+
+        [Test]
         public void PutAChipIn_GetAChipOutInSameLocation()
         {
             _testObj.AddToColumn(1, "5");
             Assert.That(_testObj.GetCell(1, 1), Is.EqualTo("5"));
-        }
-
-        [Test]
-        public void ColumnIsFull_ReturnsTrueWhenColumnMatchesSizeOfBoard()
-        {
-            _testObj.AddToColumn(1, "1");
-            _testObj.AddToColumn(1, "1");
-            Assert.That(_testObj.ColumnIsFull(1), Is.True);
-        }
-
-        [Test]
-        public void ColumnIsFull_ReturnsFalseWhenColumnEmpty()
-        {
-            Assert.That(_testObj.ColumnIsFull(1), Is.False);
-        }
-
-        [Test]
-        public void BoardIsFull_WhenAllColumnsAreFull()
-        {
-            _testObj.AddToColumn(1, "1");
-            _testObj.AddToColumn(1, "1");
-            _testObj.AddToColumn(2, "1");
-            _testObj.AddToColumn(2, "1");
-            Assert.That(_testObj.IsFull(), Is.True);
         }
     }
 }

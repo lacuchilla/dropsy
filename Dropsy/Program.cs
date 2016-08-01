@@ -1,4 +1,4 @@
-﻿ /*
+﻿/*
  * Stories:
  * 1. Build and display an empty 1x1 to 9x9 box
  * 2. column labels
@@ -13,7 +13,7 @@ namespace Dropsy
 {
     public class Program
     {
-        private static void Main(string[] args)
+        private static void Main()
         {
             var game = new Game(9, 10000);
             game.Play();

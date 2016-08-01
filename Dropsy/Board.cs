@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
-using NUnit.Framework.Constraints;
 
 namespace Dropsy
 {
     internal class Board
     {
         private readonly List<Column> _columns;
-        private int _size;
+        private readonly int _size;
 
         public Board(int size)
         {
@@ -40,6 +39,38 @@ namespace Dropsy
             return true;
         }
 
+        public bool ColumnIsFull(int column)
+        {
+            return _columns[column - 1].Data.Count >= _size;
+        }
+
+        public bool IsFull()
+        {
+            for (var col = 0; col < _size; col++)
+            {
+                if (!ColumnIsFull(col + 1))
+                    return false;
+            }
+            return true;
+        }
+
+        public bool ColumnOverflowCheck()
+        {
+            foreach (var column in _columns)
+            {
+                if (column.Data.Count > _size)
+                    return true;
+            }
+            return false;
+        }
+
+
+        public void ShiftColumnsUp()
+        {
+            foreach (var column in _columns)
+                column.ShiftUp();
+        }
+
         private class Column
         {
             public readonly List<string> Data;
@@ -53,27 +84,6 @@ namespace Dropsy
             {
                 Data.Insert(0, "█");
             }
-        }
-
-        public bool ColumnIsFull(int column)
-        {
-            return _columns[column - 1].Data.Count >= _size;
-        }
-
-        public bool IsFull()
-        {
-            for (var col = 0; col < _size; col++ )
-            {
-                if (!ColumnIsFull(col+1))
-                    return false;
-            }
-            return true;
-        }
-
-        public void ShiftColumnsUp()
-        {
-            foreach (var column in _columns)
-                column.ShiftUp();
         }
     }
 }

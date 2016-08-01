@@ -3,11 +3,11 @@
     public class Game
     {
         private readonly Board _board;
+        private readonly int _maxAttemptedTurns;
         private readonly string _middleConnector;
         private readonly int _size;
-        private string _nextChip;
         private int _attemptedTurns;
-        private readonly int _maxAttemptedTurns;
+        private string _nextChip;
         private int _turn;
 
         public Game(int size, int maxAttemptedTurns = 0)
@@ -25,15 +25,15 @@
 
         private bool ShouldShiftColumns()
         {
-            return  _turn%5 == 0;
+            return _turn%5 == 0;
         }
 
         public void Play()
         {
             var needsNewChip = true;
             _turn = 0;
-            
-            while(!GameIsOver())
+
+            while (!GameIsOver())
             {
                 if (needsNewChip)
                 {
@@ -49,6 +49,8 @@
                 }
                 DrawBoard();
                 _attemptedTurns++;
+                if (_board.ColumnOverflowCheck())
+                    return;
             }
         }
 
