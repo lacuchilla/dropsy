@@ -49,8 +49,6 @@
                 }
                 DrawBoard();
                 _attemptedTurns++;
-                if (_board.ColumnOverflowCheck())
-                    return;
             }
         }
 
@@ -59,12 +57,12 @@
             _board.ShiftColumnsUp();
         }
 
-        public bool GameIsOver()
+        private bool GameIsOver()
         {
             if (_maxAttemptedTurns != 0 && _attemptedTurns > _maxAttemptedTurns)
                 return true;
 
-            return _board.IsFull();
+            return _board.IsFull() || _board.ColumnOverflowCheck();
         }
 
         public void SetNextChipToDrop()
