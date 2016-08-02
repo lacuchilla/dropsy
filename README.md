@@ -11,4 +11,5 @@ Completed Stories:
  7. If adding blocks to a column causes it to overflow, the game is over.
 
 Current Story:
-8. 
+ 8. Add popping feature. A chip pops if it is in a column with the same number of chips as its value or if it is in a row with the same number of chips touching it contiguously. The animation sequence is to draw the chip on the board, draw an asterisk in the same place as the chip, then make the asterisk disappear.
+ 
