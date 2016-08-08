@@ -34,6 +34,14 @@ namespace Dropsy
         }
 
         [Test]
+        public void AnythingToPop_IsTrueForARowWithThreeAndTwo()
+        {
+            _testObj.AddToColumn(1, "3");
+            _testObj.AddToColumn(2, "2");
+            Assert.That(_testObj.AnythingToPop(), Is.True);
+        }
+
+        [Test]
         public void AnythingToPop_IsTrueWhenOnlyOneOne()
         {
             _testObj.AddToColumn(1, "1");
@@ -150,6 +158,17 @@ namespace Dropsy
         {
             _testObj.AddToColumn(1, "5");
             Assert.That(_testObj.GetCell(1, 1), Is.EqualTo("5"));
+        }
+
+        [Test]
+        public void ToAsterisks_RemovesBasedOnRowAlso()
+        {
+            _testObj = new Board(4);
+            _testObj.AddToColumn(3, "3");
+            _testObj.AddToColumn(2, "2");
+            _testObj.ToAsterisks();
+            Assert.That(_testObj.GetCell(3, 1), Is.EqualTo("3"));
+            Assert.That(_testObj.GetCell(2, 1), Is.EqualTo("*"));
         }
 
         [Test]
