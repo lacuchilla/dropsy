@@ -1,6 +1,6 @@
 using NUnit.Framework;
 
-namespace Dropsy
+namespace Dropsy.Tests
 {
     [TestFixture]
     public class BoardTests
