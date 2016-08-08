@@ -80,9 +80,25 @@ namespace Dropsy
         {
             foreach (var column in _columns)
             {
-                if (column.Data.Count == 1 && column.Data[0] == "1")
+                var data = column.Data;
+                for (var targetNum = 1; targetNum <= _size; targetNum++)
                 {
-                    return true;
+                    var streak = 0;
+                    for (var c = 0; c < data.Count; c++)
+                    {
+                        if (data[c] == targetNum.ToString())
+                            streak++;
+                        else
+                        {
+                            if (streak == targetNum)
+                            {
+                                return true;
+                            }
+                            streak = 0;
+                        }
+                    }
+                    if (streak == targetNum)
+                        return true;
                 }
             }
             return false;
