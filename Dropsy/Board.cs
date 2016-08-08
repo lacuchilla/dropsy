@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Dropsy
 {
@@ -80,37 +81,48 @@ namespace Dropsy
         {
             foreach (var column in _columns)
             {
-                var data = column.Data;
-                for (var targetNum = 1; targetNum <= _size; targetNum++)
-                {
-                    var streak = 0;
-                    for (var c = 0; c < data.Count; c++)
-                    {
-                        if (data[c] == targetNum.ToString())
-                            streak++;
-                        else
-                        {
-                            if (streak == targetNum)
-                            {
-                                return true;
-                            }
-                            streak = 0;
-                        }
-                    }
-                    if (streak == targetNum)
-                        return true;
-                }
+                var poppableIndexes = GetPoppableIndexes(column.Data);
+                if (poppableIndexes.Any())
+                    return true;
             }
             return false;
+        }
+
+        private List<int> GetPoppableIndexes(List<string> data)
+        {
+            var poppableIndexes = new List<int>();
+            for (var targetNum = 1; targetNum <= _size; targetNum++)
+            {
+                var streak = 0;
+                for (var c = 0; c < data.Count; c++)
+                {
+                    if (data[c] == targetNum.ToString())
+                        streak++;
+                    else
+                    {
+                        if (streak == targetNum)
+                        {
+                            for (var i = 0; i < streak; i ++)
+                                poppableIndexes.Add(c - 1 - i);
+                        }
+                        streak = 0;
+                    }
+                }
+                if (streak == targetNum)
+                    for (var i = 0; i < streak; i++)
+                        poppableIndexes.Add(data.Count - 1 - i);
+            }
+            return poppableIndexes;
         }
 
         public void ToAsterisks()
         {
             foreach (var column in _columns)
             {
-                if (column.Data.Count == 1 && column.Data[0] == "1")
+                var poppable = GetPoppableIndexes(column.Data);
+                foreach (var index in poppable)
                 {
-                    column.Data[0] = "*";
+                    column.Data[index] = "*";
                 }
             }
         }

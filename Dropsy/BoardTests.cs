@@ -41,6 +41,13 @@ namespace Dropsy
         }
 
         [Test]
+        public void AnythingToPop_IsTrueWhenOnlyOneOneInSecondColumn()
+        {
+            _testObj.AddToColumn(2, "1");
+            Assert.That(_testObj.AnythingToPop(), Is.True);
+        }
+
+        [Test]
         public void AnythingToPop_IsTrueWithTwoTwosInAColumn()
         {
             _testObj.AddToColumn(1, "2");
@@ -151,6 +158,18 @@ namespace Dropsy
             _testObj.AddToColumn(1, "1");
             _testObj.ToAsterisks();
             Assert.That(_testObj.GetCell(1, 1), Is.EqualTo("*"));
+        }
+
+        [Test]
+        public void ToAsterisks_RemovesTwoTwosInColumn()
+        {
+            _testObj = new Board(4);
+            _testObj.AddToColumn(2, "6");
+            _testObj.AddToColumn(2, "2");
+            _testObj.AddToColumn(2, "2");
+            _testObj.ToAsterisks();
+            Assert.That(_testObj.GetCell(2, 2), Is.EqualTo("*"));
+            Assert.That(_testObj.GetCell(2, 3), Is.EqualTo("*"));
         }
     }
 }

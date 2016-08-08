@@ -24,23 +24,23 @@ namespace Dropsy
         {
             var testObj = new Game(3, 6);
             var queuedChipGenerator = new QueuedChipGenerator();
-            queuedChipGenerator.Queue.Enqueue(2);
-            queuedChipGenerator.Queue.Enqueue(2);
-            queuedChipGenerator.Queue.Enqueue(3);
-            queuedChipGenerator.Queue.Enqueue(2);
-            queuedChipGenerator.Queue.Enqueue(3);
-            queuedChipGenerator.Queue.Enqueue(3);
-            queuedChipGenerator.Queue.Enqueue(3);
+            queuedChipGenerator.Queue.Enqueue(5);
+            queuedChipGenerator.Queue.Enqueue(5);
+            queuedChipGenerator.Queue.Enqueue(6);
+            queuedChipGenerator.Queue.Enqueue(5);
+            queuedChipGenerator.Queue.Enqueue(6);
+            queuedChipGenerator.Queue.Enqueue(6);
+            queuedChipGenerator.Queue.Enqueue(6);
             testObj.ChipGenerator = queuedChipGenerator;
             var screen = new FakeScreen();
             testObj.Screen = screen;
             screen.QueueNextKeys(new List<int> {1, 2, 3, 1, 2});
             testObj.Play();
             Assert.That(screen.LastOutput, Is.EqualTo(
-                "     3\n" +
+                "     6\n" +
                 "┌─────────┐\n" +
-                "│ 2  3    │\n" +
-                "│ 2  2  3 │\n" +
+                "│ 5  6    │\n" +
+                "│ 5  5  6 │\n" +
                 "│ █  █  █ │\n" +
                 "└─────────┘\n" +
                 "  1  2  3  \n"
@@ -218,10 +218,10 @@ namespace Dropsy
         {
             var testObj = new Game(2, 3);
             var queuedChipGenerator = new QueuedChipGenerator();
-            queuedChipGenerator.Queue.Enqueue(2);
-            queuedChipGenerator.Queue.Enqueue(2);
-            queuedChipGenerator.Queue.Enqueue(2);
-            queuedChipGenerator.Queue.Enqueue(2);
+            queuedChipGenerator.Queue.Enqueue(6);
+            queuedChipGenerator.Queue.Enqueue(6);
+            queuedChipGenerator.Queue.Enqueue(6);
+            queuedChipGenerator.Queue.Enqueue(6);
             testObj.ChipGenerator = queuedChipGenerator;
             var screen = new FakeScreen();
             testObj.Screen = screen;
@@ -229,10 +229,10 @@ namespace Dropsy
             testObj.Play();
 
             Assert.That(screen.LastOutput, Is.EqualTo(
-                "    2\n" +
+                "    6\n" +
                 "┌──────┐\n" +
-                "│ 2    │\n" +
-                "│ 2    │\n" +
+                "│ 6    │\n" +
+                "│ 6    │\n" +
                 "└──────┘\n" +
                 "  1  2  \n"
                 ));
