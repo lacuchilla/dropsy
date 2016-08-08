@@ -1,6 +1,6 @@
 using NUnit.Framework;
 
-namespace Dropsy
+namespace Dropsy.Tests
 {
     [TestFixture]
     public class BoardTests
@@ -34,6 +34,14 @@ namespace Dropsy
         }
 
         [Test]
+        public void AnythingToPop_IsTrueForARowWithThreeAndTwo()
+        {
+            _testObj.AddToColumn(1, "3");
+            _testObj.AddToColumn(2, "2");
+            Assert.That(_testObj.AnythingToPop(), Is.True);
+        }
+
+        [Test]
         public void AnythingToPop_IsTrueWhenOnlyOneOne()
         {
             _testObj.AddToColumn(1, "1");
@@ -41,11 +49,28 @@ namespace Dropsy
         }
 
         [Test]
-        public void AnythingToPop_IsTrueWithTwoTwosInARow()
+        public void AnythingToPop_IsTrueWhenOnlyOneOneInSecondColumn()
+        {
+            _testObj.AddToColumn(2, "1");
+            Assert.That(_testObj.AnythingToPop(), Is.True);
+        }
+
+        [Test]
+        public void AnythingToPop_IsTrueWithTwoTwosInAColumn()
         {
             _testObj.AddToColumn(1, "2");
             Assert.That(_testObj.AnythingToPop(), Is.False);
-            _testObj.AddToColumn(2, "2");
+            _testObj.AddToColumn(1, "2");
+            Assert.That(_testObj.AnythingToPop(), Is.True);
+        }
+
+        [Test]
+        public void AnythingToPop_IsTrueWithTwoTwosInColumn()
+        {
+            _testObj = new Board(4);
+            _testObj.AddToColumn(1, "6");
+            _testObj.AddToColumn(1, "3");
+            _testObj.AddToColumn(1, "3");
             Assert.That(_testObj.AnythingToPop(), Is.True);
         }
 
@@ -133,6 +158,38 @@ namespace Dropsy
         {
             _testObj.AddToColumn(1, "5");
             Assert.That(_testObj.GetCell(1, 1), Is.EqualTo("5"));
+        }
+
+        [Test]
+        public void ToAsterisks_RemovesBasedOnRowAlso()
+        {
+            _testObj = new Board(4);
+            _testObj.AddToColumn(3, "3");
+            _testObj.AddToColumn(2, "2");
+            _testObj.ToAsterisks();
+            Assert.That(_testObj.GetCell(3, 1), Is.EqualTo("3"));
+            Assert.That(_testObj.GetCell(2, 1), Is.EqualTo("*"));
+        }
+
+        [Test]
+        public void ToAsterisks_RemovesOneOne()
+        {
+            _testObj.AddToColumn(1, "1");
+            _testObj.ToAsterisks();
+            Assert.That(_testObj.GetCell(1, 1), Is.EqualTo("*"));
+        }
+
+        [Test]
+        public void ToAsterisks_RemovesTwoTwosInColumn()
+        {
+            _testObj = new Board(4);
+            _testObj.AddToColumn(2, "6");
+            _testObj.AddToColumn(2, "3");
+            _testObj.AddToColumn(2, "3");
+            _testObj.ToAsterisks();
+            Assert.That(_testObj.GetCell(2, 1), Is.EqualTo("6"));
+            Assert.That(_testObj.GetCell(2, 2), Is.EqualTo("*"));
+            Assert.That(_testObj.GetCell(2, 3), Is.EqualTo("*"));
         }
     }
 }

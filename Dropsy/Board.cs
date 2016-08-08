@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Dropsy
 {
@@ -80,21 +81,51 @@ namespace Dropsy
         {
             foreach (var column in _columns)
             {
-                if (column.Data.Count == 1 && column.Data[0] == "1")
-                {
+                var poppableIndexes = GetPoppableIndexes(column.Data);
+                if (poppableIndexes.Any())
                     return true;
+            }
+
+            //check the rows
+            for (var r = 1; r <= _size; r++)
+            {
+                var row = new List<string>();
+                for (var c = 1; c <= _size; c++)
+                {
+                    row.Add(GetCell(c, r));
                 }
+
+                var poppable = GetPoppableIndexes(row);
+                if (poppable.Any())
+                    return true;
             }
             return false;
         }
+
 
         public void ToAsterisks()
         {
             foreach (var column in _columns)
             {
-                if (column.Data.Count == 1 && column.Data[0] == "1")
+                var poppable = GetPoppableIndexes(column.Data);
+                foreach (var index in poppable)
                 {
-                    column.Data[0] = "*";
+                    column.Data[index] = "*";
+                }
+            }
+
+            for (var r = 1; r <= _size; r++)
+            {
+                var row = new List<string>();
+                for (var c = 1; c <= _size; c++)
+                {
+                    row.Add(GetCell(c, r));
+                }
+
+                var poppable = GetPoppableIndexes(row);
+                foreach (var index in poppable)
+                {
+                    _columns[index].Data[r - 1] = "*";
                 }
             }
         }
@@ -108,6 +139,43 @@ namespace Dropsy
                     column.Data.Clear();
                 }
             }
+        }
+
+        private List<int> GetPoppableIndexes(List<string> data)
+        {
+            var poppableIndexes = new List<int>();
+            for (var targetNum = 1; targetNum <= _size; targetNum++)
+            {
+                var streak = 0;
+                for (var current = 0; current < data.Count; current++)
+                {
+                    if (data[current] != " ")
+                        streak++;
+                    else
+                    {
+                        if (streak == targetNum)
+                        {
+                            for (var i = 0; i < streak; i++)
+                            {
+                                var index = current - 1 - i;
+                                if (data[index] == streak.ToString())
+                                    poppableIndexes.Add(index);
+                            }
+                        }
+                        streak = 0;
+                    }
+                }
+                if (streak == targetNum)
+                {
+                    for (var i = 0; i < streak; i++)
+                    {
+                        var index = data.Count - 1 - i;
+                        if (data[index] == streak.ToString())
+                            poppableIndexes.Add(index);
+                    }
+                }
+            }
+            return poppableIndexes;
         }
 
         private class Column

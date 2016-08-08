@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 
-namespace Dropsy
+namespace Dropsy.Tests
 {
     [TestFixture]
     public class GameTest
@@ -24,23 +24,23 @@ namespace Dropsy
         {
             var testObj = new Game(3, 6);
             var queuedChipGenerator = new QueuedChipGenerator();
-            queuedChipGenerator.Queue.Enqueue(2);
-            queuedChipGenerator.Queue.Enqueue(2);
-            queuedChipGenerator.Queue.Enqueue(3);
-            queuedChipGenerator.Queue.Enqueue(2);
-            queuedChipGenerator.Queue.Enqueue(3);
-            queuedChipGenerator.Queue.Enqueue(3);
-            queuedChipGenerator.Queue.Enqueue(3);
+            queuedChipGenerator.Queue.Enqueue(5);
+            queuedChipGenerator.Queue.Enqueue(5);
+            queuedChipGenerator.Queue.Enqueue(6);
+            queuedChipGenerator.Queue.Enqueue(5);
+            queuedChipGenerator.Queue.Enqueue(6);
+            queuedChipGenerator.Queue.Enqueue(6);
+            queuedChipGenerator.Queue.Enqueue(6);
             testObj.ChipGenerator = queuedChipGenerator;
             var screen = new FakeScreen();
             testObj.Screen = screen;
             screen.QueueNextKeys(new List<int> {1, 2, 3, 1, 2});
             testObj.Play();
             Assert.That(screen.LastOutput, Is.EqualTo(
-                "     3\n" +
+                "     6\n" +
                 "┌─────────┐\n" +
-                "│ 2  3    │\n" +
-                "│ 2  2  3 │\n" +
+                "│ 5  6    │\n" +
+                "│ 5  5  6 │\n" +
                 "│ █  █  █ │\n" +
                 "└─────────┘\n" +
                 "  1  2  3  \n"
@@ -218,10 +218,10 @@ namespace Dropsy
         {
             var testObj = new Game(2, 3);
             var queuedChipGenerator = new QueuedChipGenerator();
-            queuedChipGenerator.Queue.Enqueue(2);
-            queuedChipGenerator.Queue.Enqueue(2);
-            queuedChipGenerator.Queue.Enqueue(2);
-            queuedChipGenerator.Queue.Enqueue(2);
+            queuedChipGenerator.Queue.Enqueue(6);
+            queuedChipGenerator.Queue.Enqueue(6);
+            queuedChipGenerator.Queue.Enqueue(6);
+            queuedChipGenerator.Queue.Enqueue(6);
             testObj.ChipGenerator = queuedChipGenerator;
             var screen = new FakeScreen();
             testObj.Screen = screen;
@@ -229,79 +229,13 @@ namespace Dropsy
             testObj.Play();
 
             Assert.That(screen.LastOutput, Is.EqualTo(
-                "    2\n" +
+                "    6\n" +
                 "┌──────┐\n" +
-                "│ 2    │\n" +
-                "│ 2    │\n" +
+                "│ 6    │\n" +
+                "│ 6    │\n" +
                 "└──────┘\n" +
                 "  1  2  \n"
                 ));
-        }
-    }
-
-    public class QueuedChipGenerator : IChipGenerator
-    {
-        public Queue<int> Queue = new Queue<int>();
-
-        public int Next()
-        {
-            return Queue.Dequeue();
-        }
-    }
-
-
-    public class FakeChipGenerator : IChipGenerator
-    {
-        public int NextDrop { get; set; }
-
-        public int Next()
-        {
-            return NextDrop;
-        }
-    }
-
-    public class FakeScreen : IScreen
-    {
-        private readonly List<string> _outputs = new List<string>();
-        private int _currentKey;
-        private List<int> _keys = new List<int>();
-
-        public string LastOutput => _outputs[_outputs.Count - 1];
-
-        public IReadOnlyList<string> Outputs => _outputs;
-
-        public void WriteLine(string line)
-        {
-            _outputs[_outputs.Count - 1] += line + "\n";
-        }
-
-        public int ReadKey()
-        {
-            var retValue = _keys[_currentKey];
-            if (_currentKey < _keys.Count - 1)
-                _currentKey++;
-            return retValue;
-        }
-
-        public void Clear()
-        {
-            _outputs.Add("");
-        }
-
-        public void Pause()
-        {
-        }
-
-        public void SetNextkey(int key)
-        {
-            _currentKey = 0;
-            _keys.Add(key);
-        }
-
-        public void QueueNextKeys(List<int> keys)
-        {
-            _keys = keys;
-            _currentKey = 0;
         }
     }
 }
