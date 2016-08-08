@@ -96,21 +96,27 @@ namespace Dropsy
                 var streak = 0;
                 for (var c = 0; c < data.Count; c++)
                 {
-                    if (data[c] == targetNum.ToString())
-                        streak++;
-                    else
-                    {
-                        if (streak == targetNum)
-                        {
-                            for (var i = 0; i < streak; i ++)
-                                poppableIndexes.Add(c - 1 - i);
-                        }
-                        streak = 0;
-                    }
+                    //if (data[c] != " ")
+                    streak++;
+                    //else
+                    //{
+                    //    if (streak == targetNum)
+                    //    {
+                    //        for (var i = 0; i < streak; i ++)
+                    //            poppableIndexes.Add(c - 1 - i);
+                    //    }
+                    //    streak = 0;
+                    //}
                 }
                 if (streak == targetNum)
+                {
                     for (var i = 0; i < streak; i++)
-                        poppableIndexes.Add(data.Count - 1 - i);
+                    {
+                        var index = data.Count - 1 - i;
+                        if (data[index] == streak.ToString())
+                            poppableIndexes.Add(index);
+                    }
+                }
             }
             return poppableIndexes;
         }

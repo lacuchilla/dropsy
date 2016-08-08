@@ -61,8 +61,8 @@ namespace Dropsy
         {
             _testObj = new Board(4);
             _testObj.AddToColumn(1, "6");
-            _testObj.AddToColumn(1, "2");
-            _testObj.AddToColumn(1, "2");
+            _testObj.AddToColumn(1, "3");
+            _testObj.AddToColumn(1, "3");
             Assert.That(_testObj.AnythingToPop(), Is.True);
         }
 
@@ -165,9 +165,10 @@ namespace Dropsy
         {
             _testObj = new Board(4);
             _testObj.AddToColumn(2, "6");
-            _testObj.AddToColumn(2, "2");
-            _testObj.AddToColumn(2, "2");
+            _testObj.AddToColumn(2, "3");
+            _testObj.AddToColumn(2, "3");
             _testObj.ToAsterisks();
+            Assert.That(_testObj.GetCell(2, 1), Is.EqualTo("6"));
             Assert.That(_testObj.GetCell(2, 2), Is.EqualTo("*"));
             Assert.That(_testObj.GetCell(2, 3), Is.EqualTo("*"));
         }
